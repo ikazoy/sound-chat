@@ -1,26 +1,90 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from 'react'
+import { SignIn } from './SignIn'
+import { Messages } from './Messages'
+import firebase from './firebase'
+import './App.css'
+import { User, UserContext } from './UserProvider'
+import { Message } from './Message'
+import { SendMessage } from './SendMessage'
+import { PlaySound } from './PlaySound'
 
-function App() {
+function App(): JSX.Element {
+  const [user, setUser] = useState<User | undefined>(undefined)
+  const [messages, setMessages] = useState<Message[]>([])
+  const [latestMessage, setLatestMessage] = useState<string | undefined>()
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      // ログイン状態ならuserが取得できる
+      console.warn(user)
+      if (!user) {
+        return
+      }
+      setUser({
+        email: user.email,
+        avatar: user.photoURL,
+        displayName: user.displayName,
+      })
+    })
+  }, [])
+
+  useEffect(() => {
+    if (!user) return
+    let latestCreated = 0
+    firebase
+      .database()
+      .ref('message')
+      // すでに投稿済みのメッセージを取得
+      .limitToLast(10)
+      .once('value', (snap) => {
+        console.log('inside once callback with limited 10')
+        const messages = snap.val()
+        if (messages !== null) {
+          console.log(messages)
+          Object.keys(messages).forEach((k: string) => {
+            const message = messages[k]
+            const m: Message = {
+              key: k,
+              name: message.name,
+              image: message.image,
+              message: message.message,
+              created: message.created,
+            }
+            setMessages((currentMessages) => [...currentMessages, m])
+            latestCreated =
+              latestCreated === null || latestCreated < m.created
+                ? m.created
+                : latestCreated
+          })
+        }
+        // 新規投稿分を取得
+        snap.ref
+          .orderByChild('created')
+          .startAt(latestCreated + 1)
+          .on('child_added', (snap) => {
+            const message = snap.val()
+            const m: Message = {
+              key: snap.key!,
+              name: message.name,
+              image: message.image,
+              message: message.message,
+              created: message.created,
+            }
+            setMessages((currentMessages) => [...currentMessages, m])
+            console.log(message.message)
+            setLatestMessage(message.message)
+          })
+      })
+  }, [user])
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <UserContext.Provider value={user}>
+      <div className="App">
+        <SignIn />
+        <Messages messages={messages} />
+        <SendMessage />
+        <PlaySound command={latestMessage} />
+      </div>
+    </UserContext.Provider>
+  )
 }
 
-export default App;
+export default App
