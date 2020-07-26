@@ -27,7 +27,16 @@ function HideOnScroll(props: Props) {
   )
 }
 
-const onClick = () => {
+const logoutProcess = () => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      window.location.reload()
+    })
+}
+
+const loginProcess = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
   firebase
     .auth()
@@ -63,23 +72,34 @@ const useStyles = makeStyles((theme: Theme) =>
 export const SignIn = (): JSX.Element => {
   const user = useUser()
   const classes = useStyles()
+  const loginButton = (
+    <Button
+      variant="contained"
+      onClick={() => {
+        loginProcess()
+      }}
+    >
+      Login
+    </Button>
+  )
+  const logoutButton = (
+    <Button
+      variant="contained"
+      onClick={() => {
+        logoutProcess()
+      }}
+    >
+      Log out
+    </Button>
+  )
+  const button = user ? logoutButton : loginButton
   const signedIn = (
     <React.Fragment>
       <Avatar
         alt={user?.displayName || undefined}
         src={user?.avatar || undefined}
       />
-      <IconButton edge="end">
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            onClick()
-          }}
-        >
-          Login
-        </Button>
-      </IconButton>
+      <IconButton edge="end">{button}</IconButton>
     </React.Fragment>
   )
 

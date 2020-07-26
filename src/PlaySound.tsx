@@ -69,12 +69,11 @@ export const PlaySound = (props: {
   command?: string
   status?: ReactSoundProps['playStatus']
   onFinishedPlaying?: () => void
-}) => {
+}): JSX.Element => {
   const { command, status, onFinishedPlaying } = props
   const sound = soundCommandToModule(command)
-  const defaultOnFinished = () => {
-    const a = 1
-  }
+  /* eslint @typescript-eslint/no-empty-function: 0 */
+  const defaultOnFinished = () => {}
   return (
     <Sound
       url={sound || ''}

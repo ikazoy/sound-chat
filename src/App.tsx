@@ -15,8 +15,6 @@ function App(): JSX.Element {
   const [latestMessage, setLatestMessage] = useState<string | undefined>()
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
-      // ログイン状態ならuserが取得できる
-      console.warn(user)
       if (!user) {
         return
       }
@@ -38,7 +36,6 @@ function App(): JSX.Element {
       // すでに投稿済みのメッセージを取得
       .limitToLast(10)
       .once('value', (snap) => {
-        console.log('inside once callback with limited 10')
         const messages = snap.val() as { [key: string]: TMessage }
         if (messages !== null) {
           Object.keys(messages).forEach((k) => {
@@ -73,7 +70,6 @@ function App(): JSX.Element {
               created: message.created,
             }
             setMessages((currentMessages) => [...currentMessages, m])
-            console.log(message.message)
             setLatestMessage(message.message)
           })
       })
