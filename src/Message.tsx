@@ -2,16 +2,35 @@ import React from 'react'
 import { useUser, User } from './UserProvider'
 import { Avatar, Grid } from '@material-ui/core'
 import styled from 'styled-components'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
+import { soundCommandToLabel } from './PlaySound'
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    small: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
+    large: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
+    },
+  })
+)
 
 const isMyMessage = (message: TMessage, user: User): boolean => {
-  console.log(message)
-  console.log(user)
   return message.name === user.displayName
+}
+
+const messageConverter = (message: string): string => {
+  const label = soundCommandToLabel(message)
+  return label ? `🎶 ${label}` : message
 }
 
 export const Message = (props: { messageObject: TMessage }): JSX.Element => {
   const user = useUser()
-  const { key, image, message } = props.messageObject
+  const classes = useStyles()
+  const { key, image, message, name } = props.messageObject
 
   return (
     <Grid
@@ -24,13 +43,15 @@ export const Message = (props: { messageObject: TMessage }): JSX.Element => {
       direction="row"
       alignItems="center"
     >
-      <Avatar alt={message || undefined} src={image || undefined} />
-      <MessageString key={key}>{message}</MessageString>
+      <Avatar
+        alt={name || undefined}
+        src={image || undefined}
+        className={classes.small}
+      />
+      <MessageString key={key}>{messageConverter(message)}</MessageString>
     </Grid>
   )
 }
-
-// const Wrapper = styled.Grid``
 
 const MessageString = styled.span`
   margin: 10px;
@@ -38,8 +59,8 @@ const MessageString = styled.span`
 
 export type TMessage = {
   key?: string
-  name: string
-  image: string
+  name?: string
+  image?: string
   message: string
   created: number
 }

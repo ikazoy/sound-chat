@@ -1,9 +1,9 @@
 import React from 'react'
 
 export type User = {
-  email: string | null | undefined
-  avatar: string | null | undefined
-  displayName: string | null | undefined
+  email: string | null
+  avatar: string | null
+  displayName: string | null
 }
 
 export const UserContext = React.createContext<User | undefined>(undefined)

@@ -7,6 +7,7 @@ import { User, UserContext } from './UserProvider'
 import { TMessage } from './Message'
 import { SendMessage } from './SendMessage'
 import { PlaySound } from './PlaySound'
+import { SendSound } from './SendSound'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | undefined>(undefined)
@@ -79,9 +80,14 @@ function App(): JSX.Element {
     <UserContext.Provider value={user}>
       <div className="App">
         <SignIn />
-        <Messages messages={messages} />
-        <SendMessage />
-        <PlaySound command={latestMessage} />
+        {user && (
+          <React.Fragment>
+            <Messages messages={messages} />
+            <SendSound />
+            <SendMessage />
+            <PlaySound command={latestMessage} />
+          </React.Fragment>
+        )}
       </div>
     </UserContext.Provider>
   )

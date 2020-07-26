@@ -1,73 +1,85 @@
 import React from 'react'
-import Sound from 'react-sound'
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const Clap = require('./assets/audio/mens-ou1.mp3')
+import Sound, { ReactSoundProps } from 'react-sound'
+/* eslint @typescript-eslint/no-var-requires: 0 */
+const Clap = require('./assets/audio/拍手と歓声.mp3')
+const Ou = require('./assets/audio/mens-ou1.mp3')
+const Yeah = require('./assets/audio/イエーイ.mp3')
+const ListenToMe = require('./assets/audio/俺の話を聞け.mp3')
+const WhatTime = require('./assets/audio/いま何時？.mp3')
+const Dora = require('./assets/audio/ドラ.mp3')
+const Guts = require('./assets/audio/ガッツだぜ.mp3')
+const Zannen = require('./assets/audio/残念.mp3')
 
-type SoundCommandKey = 'clap'
-const soundCommandKeys: SoundCommandKey[] = ['clap']
-const soundCommandModuleMap: { [K in SoundCommandKey]: any } = {
+export type SoundCommandKey =
+  | 'clap'
+  | 'yeah'
+  | 'listenToMe'
+  | 'ou'
+  | 'whatTime'
+  | 'dora'
+  | 'guts'
+  | 'zannen'
+
+export const soundCommandLabelMap: { [key in SoundCommandKey]?: string } = {
+  clap: '拍手',
+  yeah: 'イエーイ',
+  ou: 'オゥ!',
+  dora: 'ドラ',
+  listenToMe: '俺の話を聞け',
+  guts: 'ガッツだぜ',
+  whatTime: '今何時',
+}
+const soundCommandModuleMap: { [K in SoundCommandKey]?: any } = {
   clap: Clap,
+  yeah: Yeah,
+  ou: Ou,
+  listenToMe: ListenToMe,
+  whatTime: WhatTime,
+  dora: Dora,
+  guts: Guts,
+  zannen: Zannen,
 }
 
-const isSoundCommand = (str: string): str is SoundCommandKey => {
-  return soundCommandKeys.findIndex((k) => k === str) !== -1
+export const isSoundCommand = (str: string): str is SoundCommandKey => {
+  return Object.keys(soundCommandModuleMap).findIndex((k) => k === str) !== -1
+}
+
+const extractSoundCommandFromString = (str: string) => {
+  const regexp = new RegExp(/^\[\[(\w+)\]\]$/)
+  const matched = str.match(regexp)
+  if (!matched) return null
+  const soundCommand = matched[1]
+  return isSoundCommand(soundCommand) ? soundCommand : null
+}
+
+export const soundCommandToLabel = (str: string) => {
+  const extracted = extractSoundCommandFromString(str)
+  return extracted ? soundCommandLabelMap[extracted] : null
 }
 
 export const soundCommandToModule = (
   str: string | undefined
 ): string | null => {
   if (str === undefined) return null
-  const regexp = new RegExp(/^\[\[(\w+)\]\]$/)
-  const matched = str.match(regexp)
-  if (!matched) return null
-  const soundCommand = matched[1]
-  return isSoundCommand(soundCommand)
-    ? soundCommandModuleMap[soundCommand]
-    : null
+  const extracted = extractSoundCommandFromString(str)
+  return extracted ? soundCommandModuleMap[extracted] : null
 }
 
-const useAudio = (url: string): [boolean, () => void] => {
-  console.log(url)
-  const [audio] = React.useState<HTMLAudioElement | null>(new Audio(url))
-  console.log(audio)
-  // const [playing, setPlaying] = React.useState(false)
-  const [playing, setPlaying] = React.useState(false)
-  const toggle = () => setPlaying(!playing)
-
-  React.useEffect(() => {
-    console.log(playing, audio)
-    if (playing) {
-      audio
-        ?.play()
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((err) => {
-          console.error(err)
-        })
-    } else {
-      audio?.pause()
-    }
-    // }, [audio, playing])
-  })
-
-  React.useEffect(() => {
-    audio?.addEventListener('ended', () => setPlaying(false))
-    return () => {
-      audio?.removeEventListener('ended', () => setPlaying(false))
-    }
-    // }, [audio])
-  })
-
-  return [playing, toggle]
-}
-
-export const PlaySound = (props: { command?: string }) => {
-  const { command } = props
+export const PlaySound = (props: {
+  command?: string
+  status?: ReactSoundProps['playStatus']
+  onFinishedPlaying?: () => void
+}) => {
+  const { command, status, onFinishedPlaying } = props
   const sound = soundCommandToModule(command)
-  // console.log(sound)
-  // const [playing, toggle] = useAudio(sound || '')
-  // console.log(playing)
-  // return <div onClick={() => toggle()}>a</div>
-  return <Sound url={sound || ''} playStatus="PLAYING"></Sound>
+  const defaultOnFinished = () => {
+    const a = 1
+  }
+  return (
+    <Sound
+      url={sound || ''}
+      playStatus={status || 'PLAYING'}
+      onFinishedPlaying={onFinishedPlaying || defaultOnFinished}
+    ></Sound>
+  )
 }
