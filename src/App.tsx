@@ -4,13 +4,13 @@ import { Messages } from './Messages'
 import firebase from './firebase'
 import './App.css'
 import { User, UserContext } from './UserProvider'
-import { Message } from './Message'
+import { TMessage } from './Message'
 import { SendMessage } from './SendMessage'
 import { PlaySound } from './PlaySound'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | undefined>(undefined)
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<TMessage[]>([])
   const [latestMessage, setLatestMessage] = useState<string | undefined>()
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -42,7 +42,7 @@ function App(): JSX.Element {
           console.log(messages)
           Object.keys(messages).forEach((k: string) => {
             const message = messages[k]
-            const m: Message = {
+            const m: TMessage = {
               key: k,
               name: message.name,
               image: message.image,
@@ -62,7 +62,7 @@ function App(): JSX.Element {
           .startAt(latestCreated + 1)
           .on('child_added', (snap) => {
             const message = snap.val()
-            const m: Message = {
+            const m: TMessage = {
               key: snap.key!,
               name: message.name,
               image: message.image,

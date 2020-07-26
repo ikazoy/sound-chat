@@ -1,9 +1,33 @@
 import React from 'react'
 import firebase from './firebase'
-import Avatar from '@material-ui/core/Avatar'
+import {
+  Avatar,
+  Button,
+  AppBar,
+  Toolbar,
+  Slide,
+  CssBaseline,
+  IconButton,
+  Typography,
+} from '@material-ui/core'
 import { useUser } from './UserProvider'
+import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+interface Props {
+  children: React.ReactElement
+}
+function HideOnScroll(props: Props) {
+  const { children } = props
+  const trigger = useScrollTrigger()
 
-const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  return (
+    <Slide appear={false} direction="down" in={!trigger}>
+      {children}
+    </Slide>
+  )
+}
+
+const onClick = () => {
   const provider = new firebase.auth.GoogleAuthProvider()
   firebase
     .auth()
@@ -11,24 +35,68 @@ const onClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     .then(function (result) {
       // const token = result.credential.accessToken
       // const user = result.user
+      console.log(result)
     })
     .catch(function (error) {
       // const errorCode = error.code
       // const errorMessage = error.message
       // const email = error.email
       // const credential = error.credential
+      console.error(error)
     })
 }
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+    },
+    menuButton: {
+      marginRight: theme.spacing(2),
+    },
+    title: {
+      flexGrow: 1,
+    },
+  })
+)
+
 export const SignIn = (): JSX.Element => {
   const user = useUser()
-  return (
-    <div>
-      <div onClick={onClick}>Login button</div>
+  const classes = useStyles()
+  const signedIn = (
+    <React.Fragment>
       <Avatar
         alt={user?.displayName || undefined}
         src={user?.avatar || undefined}
       />
-    </div>
+      <IconButton edge="end">
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            onClick()
+          }}
+        >
+          Login
+        </Button>
+      </IconButton>
+    </React.Fragment>
+  )
+
+  // TODO: Sign out
+  return (
+    <React.Fragment>
+      <CssBaseline />
+      <HideOnScroll>
+        <AppBar position="static">
+          <Toolbar>
+            <Typography variant="h6" className={classes.title}>
+              Sound Chat
+            </Typography>
+            {/* {user ? signedIn : login} */ signedIn}
+          </Toolbar>
+        </AppBar>
+      </HideOnScroll>
+    </React.Fragment>
   )
 }
