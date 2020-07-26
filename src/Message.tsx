@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme: Theme) =>
 )
 
 const isMyMessage = (message: TMessage, user: User): boolean => {
-  return message.name === user.displayName
+  return message.createdBy === user.id
 }
 
 const messageConverter = (message: string): string => {
@@ -60,6 +60,7 @@ const MessageString = styled.span`
 export type TMessage = {
   key?: string
   name?: string
+  createdBy: string
   image?: string
   message: string
   created: number

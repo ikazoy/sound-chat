@@ -24,6 +24,7 @@ function App(): JSX.Element {
         email: user.email,
         avatar: user.photoURL,
         displayName: user.displayName,
+        id: user.uid,
       })
     })
   }, [])
@@ -38,13 +39,13 @@ function App(): JSX.Element {
       .limitToLast(10)
       .once('value', (snap) => {
         console.log('inside once callback with limited 10')
-        const messages = snap.val()
+        const messages = snap.val() as { [key: string]: TMessage }
         if (messages !== null) {
-          console.log(messages)
-          Object.keys(messages).forEach((k: string) => {
+          Object.keys(messages).forEach((k) => {
             const message = messages[k]
             const m: TMessage = {
               key: k,
+              createdBy: message.createdBy,
               name: message.name,
               image: message.image,
               message: message.message,
@@ -65,6 +66,7 @@ function App(): JSX.Element {
             const message = snap.val()
             const m: TMessage = {
               key: snap.key!,
+              createdBy: message.createdBy,
               name: message.name,
               image: message.image,
               message: message.message,

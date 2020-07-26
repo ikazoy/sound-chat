@@ -18,6 +18,7 @@ export const SendSound = (): JSX.Element | null => {
         onClick={() => {
           setPlaying(false)
           sendMessage({
+            createdBy: user.id,
             message: `[[${command}]]`,
             name: user.displayName || undefined,
             image: user.avatar || undefined,

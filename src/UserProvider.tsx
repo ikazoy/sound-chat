@@ -1,6 +1,7 @@
 import React from 'react'
 
 export type User = {
+  id: string
   email: string | null
   avatar: string | null
   displayName: string | null

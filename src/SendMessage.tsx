@@ -40,6 +40,7 @@ export const SendMessage = (): JSX.Element | null => {
         endIcon={<SendIcon>send</SendIcon>}
         onClick={() => {
           sendMessage({
+            createdBy: user.id,
             message: typedMessage,
             name: user.displayName || undefined,
             image: user.avatar || undefined,
