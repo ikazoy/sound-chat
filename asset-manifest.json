@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/sound-chat/static/css/main.5f361e03.chunk.css",
+    "main.js": "/sound-chat/static/js/main.bb834b14.chunk.js",
+    "main.js.map": "/sound-chat/static/js/main.bb834b14.chunk.js.map",
+    "runtime-main.js": "/sound-chat/static/js/runtime-main.e7595ce5.js",
+    "runtime-main.js.map": "/sound-chat/static/js/runtime-main.e7595ce5.js.map",
+    "static/js/2.8efdc293.chunk.js": "/sound-chat/static/js/2.8efdc293.chunk.js",
+    "static/js/2.8efdc293.chunk.js.map": "/sound-chat/static/js/2.8efdc293.chunk.js.map",
+    "index.html": "/sound-chat/index.html",
+    "precache-manifest.becbe5f61712788bd7e2600fc0f5c73a.js": "/sound-chat/precache-manifest.becbe5f61712788bd7e2600fc0f5c73a.js",
+    "service-worker.js": "/sound-chat/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/sound-chat/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.8efdc293.chunk.js.LICENSE.txt": "/sound-chat/static/js/2.8efdc293.chunk.js.LICENSE.txt",
+    "static/media/mens-ou1.mp3": "/sound-chat/static/media/mens-ou1.325c5d7b.mp3",
+    "static/media/いま何時？.mp3": "/sound-chat/static/media/いま何時？.337a27c5.mp3",
+    "static/media/イエーイ.mp3": "/sound-chat/static/media/イエーイ.ba4350c3.mp3",
+    "static/media/ガッツだぜ.mp3": "/sound-chat/static/media/ガッツだぜ.199d7110.mp3",
+    "static/media/ドラ.mp3": "/sound-chat/static/media/ドラ.71d29c0d.mp3",
+    "static/media/俺の話を聞け.mp3": "/sound-chat/static/media/俺の話を聞け.bcb20230.mp3",
+    "static/media/拍手と歓声.mp3": "/sound-chat/static/media/拍手と歓声.dfc91a3d.mp3",
+    "static/media/残念.mp3": "/sound-chat/static/media/残念.6940c363.mp3"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.e7595ce5.js",
+    "static/js/2.8efdc293.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.bb834b14.chunk.js"
+  ]
+}
