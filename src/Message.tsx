@@ -1,6 +1,6 @@
 import React from 'react'
 import { useUser, User } from './UserProvider'
-import { Avatar, Grid } from '@material-ui/core'
+import { Avatar, Grid, Tooltip } from '@material-ui/core'
 import styled from 'styled-components'
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 import { soundCommandToLabel } from './PlaySound'
@@ -43,11 +43,14 @@ export const Message = (props: { messageObject: TMessage }): JSX.Element => {
       direction="row"
       alignItems="center"
     >
-      <Avatar
-        alt={name || undefined}
-        src={image || undefined}
-        className={classes.small}
-      />
+      <Tooltip title={name || ''}>
+        <Avatar
+          alt={name || undefined}
+          src={image || undefined}
+          className={classes.small}
+          imgProps={{ referrerPolicy: 'no-referrer' }}
+        />
+      </Tooltip>
       <MessageString key={key}>{messageConverter(message)}</MessageString>
     </Grid>
   )

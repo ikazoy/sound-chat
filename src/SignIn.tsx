@@ -98,6 +98,7 @@ export const SignIn = (): JSX.Element => {
       <Avatar
         alt={user?.displayName || undefined}
         src={user?.avatar || undefined}
+        imgProps={{ referrerPolicy: 'no-referrer' }}
       />
       <IconButton edge="end">{button}</IconButton>
     </React.Fragment>

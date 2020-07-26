@@ -49,7 +49,7 @@ export const SendSound = (): JSX.Element | null => {
           setPlaying(false)
         }}
       >
-        {label}
+        🎶 {label}
       </Button>
     )
   }
