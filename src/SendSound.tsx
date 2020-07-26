@@ -1,5 +1,12 @@
 import React from 'react'
-import { ButtonGroup, Button } from '@material-ui/core'
+import {
+  ButtonGroup,
+  Button,
+  Tooltip,
+  IconButton,
+  withStyles,
+} from '@material-ui/core'
+import { Info as InfoIcon } from '@material-ui/icons'
 import { PlaySound, SoundCommandKey, soundCommandLabelMap } from './PlaySound'
 import { sendMessage } from './SendMessage'
 import { useUser } from './UserProvider'
@@ -46,6 +53,11 @@ export const SendSound = (): JSX.Element | null => {
       </Button>
     )
   }
+  const BigTextTooltip = withStyles({
+    tooltip: {
+      fontSize: '1em',
+    },
+  })(Tooltip)
   return (
     <React.Fragment>
       {/* for preview of sound */}
@@ -63,6 +75,11 @@ export const SendSound = (): JSX.Element | null => {
           return playSoundButton(k, soundCommandLabelMap[k] as string)
         })}
       </ButtonGroup>
+      <BigTextTooltip title="しばらくホバーすると送信前に音の確認が出来ます">
+        <IconButton aria-label="delete">
+          <InfoIcon />
+        </IconButton>
+      </BigTextTooltip>
     </React.Fragment>
   )
 }
