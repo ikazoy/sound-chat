@@ -24,7 +24,7 @@ const isMyMessage = (message: TMessage, user: User): boolean => {
 
 const messageConverter = (message: string): string => {
   const label = soundCommandToLabel(message)
-  return label ? `🎶 ${label}` : message
+  return label ? `✨ ${label} ✨` : message
 }
 
 export const Message = (props: { messageObject: TMessage }): JSX.Element => {

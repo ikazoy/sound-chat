@@ -1,5 +1,6 @@
 import React from 'react'
 import { TMessage, Message } from './Message'
+import { Grid } from '@material-ui/core'
 
 export const Messages = (props: { messages: TMessage[] }): JSX.Element => {
   const { messages } = props
@@ -10,5 +11,9 @@ export const Messages = (props: { messages: TMessage[] }): JSX.Element => {
   const messagesX = messages.map((m) => {
     return <Message key={m.key} messageObject={m} />
   })
-  return <div>{messagesX}</div>
+  return (
+    <Grid container direction="column">
+      {messagesX}
+    </Grid>
+  )
 }
