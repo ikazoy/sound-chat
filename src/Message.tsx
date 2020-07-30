@@ -3,7 +3,8 @@ import { useUser, User } from './UserProvider'
 import { Avatar, Grid, Tooltip } from '@material-ui/core'
 import styled from 'styled-components'
 import { soundCommandToLabel } from './PlaySound'
-import moment from 'moment'
+// import moment from 'moment'
+import moment from 'moment-timezone'
 
 const isMyMessage = (message: TMessage, user: User): boolean => {
   return message.createdBy === user.id
@@ -15,7 +16,10 @@ const messageConverter = (message: string): string => {
 }
 
 const dateConverter = (unixTimestamp: number): string => {
-  return moment.unix(unixTimestamp).format('h:mm A')
+  return moment
+    .unix(unixTimestamp / 1000)
+    .tz('Asia/Tokyo')
+    .format('h:mm A')
 }
 
 export const Message = (props: { messageObject: TMessage }): JSX.Element => {

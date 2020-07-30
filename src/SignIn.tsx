@@ -115,7 +115,7 @@ export const SignIn = (): JSX.Element => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar position="fixed">
+      <AppBar position="sticky">
         <Toolbar variant="regular">
           <Typography variant="h6" className={classes.title}>
             Ding Dong Ding
