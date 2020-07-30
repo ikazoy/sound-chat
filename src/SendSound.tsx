@@ -29,6 +29,7 @@ export const SendSound = (): JSX.Element | null => {
   const [sound, setSound] = React.useState<string | undefined>(undefined)
   const [playing, setPlaying] = React.useState<boolean>(false)
   const [delayTimer, setDelayTimer] = React.useState<number>(0)
+  const [isThrottled, setThrottled] = React.useState<boolean>(false)
   const user = useUser()
   const classes = useStyles()
   const delayInMsec = 200
@@ -37,7 +38,7 @@ export const SendSound = (): JSX.Element | null => {
   const playSoundButton = (command: string, label: string) => {
     return (
       <Grid container alignItems="center" justify="center" spacing={1}>
-        <Grid item xs={4}>
+        <Grid item xs={5}>
           {label}
         </Grid>
         <Grid item xs={2}>
@@ -66,6 +67,7 @@ export const SendSound = (): JSX.Element | null => {
         <Grid item xs={2}>
           <IconButton
             color="primary"
+            disabled={isThrottled}
             onClick={() => {
               setPlaying(false)
               sendMessage({
@@ -74,6 +76,10 @@ export const SendSound = (): JSX.Element | null => {
                 name: user.displayName || undefined,
                 image: user.avatar || undefined,
               })
+              setThrottled(true)
+              window.setTimeout(() => {
+                setThrottled(false)
+              }, 10 * 1000)
             }}
           >
             <SendIcon />
