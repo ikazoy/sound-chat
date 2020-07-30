@@ -8,6 +8,7 @@ import { TMessage } from './Message'
 import { SendMessage } from './SendMessage'
 import { PlaySound } from './PlaySound'
 import { SendSound } from './SendSound'
+import { Divider } from '@material-ui/core'
 
 function App(): JSX.Element {
   const [user, setUser] = useState<User | undefined>(undefined)
@@ -81,6 +82,7 @@ function App(): JSX.Element {
         {user && (
           <React.Fragment>
             <Messages messages={messages} />
+            <Divider />
             <SendSound />
             <SendMessage />
             <PlaySound command={latestMessage} />

@@ -112,7 +112,7 @@ export const SignIn = (): JSX.Element => {
         <AppBar position="static">
           <Toolbar>
             <Typography variant="h6" className={classes.title}>
-              Sound Chat
+              Ding Dong Ding
             </Typography>
             {/* {user ? signedIn : login} */ signedIn}
           </Toolbar>

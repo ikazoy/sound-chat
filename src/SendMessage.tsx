@@ -1,5 +1,5 @@
 import React from 'react'
-import { TextField, Button } from '@material-ui/core'
+import { Grid, TextField, IconButton } from '@material-ui/core'
 import SendIcon from '@material-ui/icons/Send'
 import { useUser } from './UserProvider'
 import { TMessage } from './Message'
@@ -23,32 +23,35 @@ export const SendMessage = (): JSX.Element | null => {
     setTypedMessage(event.target.value)
   }
   return (
-    <React.Fragment>
-      <form autoComplete="off">
-        <TextField
-          value={typedMessage}
-          onChange={handleChange}
-          disabled={!user}
-          placeholder="type your message here"
-          fullWidth
-        />
-      </form>
-
-      <Button
-        variant="contained"
-        color="primary"
-        endIcon={<SendIcon>send</SendIcon>}
-        onClick={() => {
-          sendMessage({
-            createdBy: user.id,
-            message: typedMessage,
-            name: user.displayName || undefined,
-            image: user.avatar || undefined,
-          })
-        }}
-      >
-        Send
-      </Button>
-    </React.Fragment>
+    <Grid container>
+      <Grid item xs={11}>
+        <form autoComplete="off">
+          <TextField
+            variant="outlined"
+            value={typedMessage}
+            onChange={handleChange}
+            disabled={!user}
+            placeholder="type your message here"
+            fullWidth
+          />
+        </form>
+      </Grid>
+      <Grid item xs={1}>
+        <IconButton
+          color="primary"
+          onClick={() => {
+            sendMessage({
+              createdBy: user.id,
+              message: typedMessage,
+              name: user.displayName || undefined,
+              image: user.avatar || undefined,
+            })
+            setTypedMessage('')
+          }}
+        >
+          <SendIcon />
+        </IconButton>
+      </Grid>
+    </Grid>
   )
 }

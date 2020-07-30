@@ -1,20 +1,16 @@
 import React from 'react'
 import {
-  Paper,
-  Button,
-  Tooltip,
-  IconButton,
   Grid,
-  withStyles,
+  IconButton,
   makeStyles,
   createStyles,
   Theme,
 } from '@material-ui/core'
-import { Info as InfoIcon } from '@material-ui/icons'
 import { PlaySound, SoundCommandKey, soundCommandLabelMap } from './PlaySound'
 import { sendMessage } from './SendMessage'
 import { useUser } from './UserProvider'
-import { Send, VolumeUp } from '@material-ui/icons'
+import { VolumeUp } from '@material-ui/icons'
+import SendIcon from '@material-ui/icons/Send'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -40,46 +36,53 @@ export const SendSound = (): JSX.Element | null => {
 
   const playSoundButton = (command: string, label: string) => {
     return (
-      <Paper className={classes.paper}>
-        {label}
-        <VolumeUp
-          onMouseEnter={() => {
-            window.clearTimeout(delayTimer)
-            const timerId = window.setTimeout(() => {
-              setSound(`[[${command}]]`)
-              setPlaying(true)
-              setDelayTimer(0)
-            }, delayInMsec)
-            setDelayTimer(timerId)
-          }}
-          onMouseLeave={() => {
-            if (delayTimer > 0) {
+      <Grid container alignItems="center" justify="center" spacing={1}>
+        <Grid item xs={4}>
+          {label}
+        </Grid>
+        <Grid item xs={2}>
+          <IconButton
+            onMouseEnter={() => {
               window.clearTimeout(delayTimer)
-              setDelayTimer(0)
-            }
-            setSound(undefined)
-            setPlaying(false)
-          }}
-        />
-        <Send
-          onClick={() => {
-            setPlaying(false)
-            sendMessage({
-              createdBy: user.id,
-              message: `[[${command}]]`,
-              name: user.displayName || undefined,
-              image: user.avatar || undefined,
-            })
-          }}
-        />
-      </Paper>
+              const timerId = window.setTimeout(() => {
+                setSound(`[[${command}]]`)
+                setPlaying(true)
+                setDelayTimer(0)
+              }, delayInMsec)
+              setDelayTimer(timerId)
+            }}
+            onMouseLeave={() => {
+              if (delayTimer > 0) {
+                window.clearTimeout(delayTimer)
+                setDelayTimer(0)
+              }
+              setSound(undefined)
+              setPlaying(false)
+            }}
+          >
+            <VolumeUp />
+          </IconButton>
+        </Grid>
+        <Grid item xs={2}>
+          <IconButton
+            color="primary"
+            onClick={() => {
+              setPlaying(false)
+              sendMessage({
+                createdBy: user.id,
+                message: `[[${command}]]`,
+                name: user.displayName || undefined,
+                image: user.avatar || undefined,
+              })
+            }}
+          >
+            <SendIcon />
+          </IconButton>
+        </Grid>
+      </Grid>
+      // </Paper>
     )
   }
-  const BigTextTooltip = withStyles({
-    tooltip: {
-      fontSize: '1em',
-    },
-  })(Tooltip)
   return (
     <React.Fragment>
       {/* for preview of sound */}
@@ -92,20 +95,18 @@ export const SendSound = (): JSX.Element | null => {
       />
       <div className={classes.root}>
         <Grid container direction="row" spacing={1}>
-          <Grid item xs>
-            {(Object.keys(soundCommandLabelMap) as Array<
-              keyof typeof soundCommandLabelMap
-            >).map((k: SoundCommandKey) => {
-              return playSoundButton(k, soundCommandLabelMap[k] as string)
-            })}
-          </Grid>
+          {(Object.keys(soundCommandLabelMap) as Array<
+            keyof typeof soundCommandLabelMap
+          >).map((k: SoundCommandKey) => {
+            const a = (
+              <Grid item xs={6}>
+                {playSoundButton(k, soundCommandLabelMap[k] as string)}
+              </Grid>
+            )
+            return a
+          })}
         </Grid>
       </div>
-      <BigTextTooltip title="しばらくホバーすると送信前に音の確認が出来ます">
-        <IconButton aria-label="delete">
-          <InfoIcon />
-        </IconButton>
-      </BigTextTooltip>
     </React.Fragment>
   )
 }
