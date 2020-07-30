@@ -37,12 +37,19 @@ export const SendSound = (): JSX.Element | null => {
 
   const playSoundButton = (command: string, label: string) => {
     return (
-      <Grid container alignItems="center" justify="center" spacing={1}>
+      <Grid
+        container
+        alignItems="center"
+        justify="center"
+        spacing={1}
+        style={{ fontSize: '12px' }}
+      >
         <Grid item xs={5}>
           {label}
         </Grid>
         <Grid item xs={2}>
           <IconButton
+            size="small"
             onMouseEnter={() => {
               window.clearTimeout(delayTimer)
               const timerId = window.setTimeout(() => {
@@ -66,6 +73,7 @@ export const SendSound = (): JSX.Element | null => {
         </Grid>
         <Grid item xs={2}>
           <IconButton
+            size="small"
             color="primary"
             disabled={isThrottled}
             onClick={() => {
@@ -105,7 +113,7 @@ export const SendSound = (): JSX.Element | null => {
             keyof typeof soundCommandLabelMap
           >).map((k: SoundCommandKey) => {
             const a = (
-              <Grid item xs={6}>
+              <Grid item xs={6} key={k}>
                 {playSoundButton(k, soundCommandLabelMap[k] as string)}
               </Grid>
             )

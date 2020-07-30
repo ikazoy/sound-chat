@@ -44,7 +44,6 @@ export const Message = (props: { messageObject: TMessage }): JSX.Element => {
           <Avatar
             alt={name || undefined}
             src={image || undefined}
-            // className={classes.small}
             imgProps={{ referrerPolicy: 'no-referrer' }}
             variant="square"
           />

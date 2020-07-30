@@ -5,27 +5,27 @@ import {
   Button,
   AppBar,
   Toolbar,
-  Slide,
+  // Slide,
   CssBaseline,
   IconButton,
   Typography,
 } from '@material-ui/core'
 import { useUser } from './UserProvider'
-import useScrollTrigger from '@material-ui/core/useScrollTrigger'
+// import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 interface Props {
   children: React.ReactElement
 }
-function HideOnScroll(props: Props) {
-  const { children } = props
-  const trigger = useScrollTrigger()
+// function HideOnScroll(props: Props) {
+//   const { children } = props
+//   const trigger = useScrollTrigger()
 
-  return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      {children}
-    </Slide>
-  )
-}
+//   return (
+//     <Slide appear={false} direction="down" in={!trigger}>
+//       {children}
+//     </Slide>
+//   )
+// }
 
 const logoutProcess = () => {
   firebase
@@ -60,6 +60,10 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    avatar: {
+      width: theme.spacing(3),
+      height: theme.spacing(3),
+    },
     menuButton: {
       marginRight: theme.spacing(2),
     },
@@ -85,6 +89,7 @@ export const SignIn = (): JSX.Element => {
   const logoutButton = (
     <Button
       variant="contained"
+      size="small"
       onClick={() => {
         logoutProcess()
       }}
@@ -99,6 +104,8 @@ export const SignIn = (): JSX.Element => {
         alt={user?.displayName || undefined}
         src={user?.avatar || undefined}
         imgProps={{ referrerPolicy: 'no-referrer' }}
+        className={classes.avatar}
+        variant="square"
       />
       <IconButton edge="end">{button}</IconButton>
     </React.Fragment>
@@ -108,16 +115,14 @@ export const SignIn = (): JSX.Element => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <HideOnScroll>
-        <AppBar position="static">
-          <Toolbar>
-            <Typography variant="h6" className={classes.title}>
-              Ding Dong Ding
-            </Typography>
-            {/* {user ? signedIn : login} */ signedIn}
-          </Toolbar>
-        </AppBar>
-      </HideOnScroll>
+      <AppBar position="fixed">
+        <Toolbar variant="regular">
+          <Typography variant="h6" className={classes.title}>
+            Ding Dong Ding
+          </Typography>
+          {/* {user ? signedIn : login} */ signedIn}
+        </Toolbar>
+      </AppBar>
     </React.Fragment>
   )
 }

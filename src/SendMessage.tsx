@@ -24,7 +24,7 @@ export const SendMessage = (): JSX.Element | null => {
   }
   return (
     <Grid container>
-      <Grid item xs={11}>
+      <Grid item xs={10}>
         <form autoComplete="off">
           <TextField
             variant="outlined"
@@ -47,7 +47,7 @@ export const SendMessage = (): JSX.Element | null => {
           />
         </form>
       </Grid>
-      <Grid item xs={1}>
+      <Grid item xs={2}>
         <IconButton
           color="primary"
           onClick={() => {
