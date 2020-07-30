@@ -1,43 +1,68 @@
 import React from 'react'
 import Sound, { ReactSoundProps } from 'react-sound'
 /* eslint @typescript-eslint/no-var-requires: 0 */
-const Clap = require('./assets/audio/拍手と歓声.mp3')
 const Ou = require('./assets/audio/mens-ou1.mp3')
+const Arigatou = require('./assets/audio/ありがとうございます.mp3')
 const Yeah = require('./assets/audio/イエーイ.mp3')
-const ListenToMe = require('./assets/audio/俺の話を聞け.mp3')
 const WhatTime = require('./assets/audio/いま何時？.mp3')
-const Dora = require('./assets/audio/ドラ.mp3')
 const Guts = require('./assets/audio/ガッツだぜ.mp3')
+const SingleBed = require('./assets/audio/シングルベッド.mp3')
+const Dora = require('./assets/audio/ドラ.mp3')
+const Drum = require('./assets/audio/ドラムロール.mp3')
+const Boo = require('./assets/audio/ブーイング.mp3')
+const Howan = require('./assets/audio/ほわんほわんほわん.mp3')
+const ListenToMe = require('./assets/audio/俺の話を聞け.mp3')
 const Zannen = require('./assets/audio/残念.mp3')
+const Clap = require('./assets/audio/拍手と歓声.mp3')
+const Relieved = require('./assets/audio/本当によかった.mp3')
 
 export type SoundCommandKey =
-  | 'clap'
-  | 'yeah'
-  | 'listenToMe'
   | 'ou'
+  | 'arigatou'
+  | 'yeah'
   | 'whatTime'
-  | 'dora'
   | 'guts'
+  | 'singleBed'
+  | 'dora'
+  | 'drum'
+  | 'boo'
+  | 'howan'
+  | 'listenToMe'
   | 'zannen'
+  | 'clap'
+  | 'relieved'
 
 export const soundCommandLabelMap: { [key in SoundCommandKey]?: string } = {
-  clap: '拍手',
-  yeah: 'イエーイ',
   ou: 'オゥ!',
-  dora: 'ドラ',
-  listenToMe: '俺の話を聞け',
-  guts: 'ガッツだぜ',
+  arigatou: 'ありがとう',
+  yeah: 'イエーイ',
   whatTime: '今何時',
+  guts: 'ガッツだぜ',
+  singleBed: 'シングルベッド',
+  dora: 'ドラ',
+  drum: 'ドラムロール',
+  boo: 'ブーイング',
+  howan: 'ほわんほわん',
+  listenToMe: '俺の話を聞け',
+  zannen: 'ざんねん',
+  clap: '拍手',
+  relieved: '本当に良かった',
 }
 const soundCommandModuleMap: { [K in SoundCommandKey]?: any } = {
-  clap: Clap,
-  yeah: Yeah,
   ou: Ou,
-  listenToMe: ListenToMe,
+  arigatou: Arigatou,
+  yeah: Yeah,
   whatTime: WhatTime,
-  dora: Dora,
   guts: Guts,
+  singleBed: SingleBed,
+  dora: Dora,
+  drum: Drum,
+  boo: Boo,
+  howan: Howan,
+  listenToMe: ListenToMe,
   zannen: Zannen,
+  clap: Clap,
+  relieved: Relieved,
 }
 
 export const isSoundCommand = (str: string): str is SoundCommandKey => {
