@@ -33,6 +33,17 @@ export const SendMessage = (): JSX.Element | null => {
             disabled={!user}
             placeholder="type your message here"
             fullWidth
+            onKeyPress={(ev) => {
+              if (ev.key !== 'Enter') return
+              ev.preventDefault()
+              sendMessage({
+                createdBy: user.id,
+                message: typedMessage,
+                name: user.displayName || undefined,
+                image: user.avatar || undefined,
+              })
+              setTypedMessage('')
+            }}
           />
         </form>
       </Grid>
