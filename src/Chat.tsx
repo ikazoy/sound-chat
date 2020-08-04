@@ -4,6 +4,7 @@ import { Messages } from './Messages'
 import firebase from './firebase'
 import './App.css'
 import { User, UserContext } from './UserProvider'
+import { VolumeProvider } from './useVolume'
 import { TMessage } from './Message'
 import { SendMessage } from './SendMessage'
 import { PlaySound } from './PlaySound'
@@ -78,16 +79,18 @@ function App(): JSX.Element {
   return (
     <UserContext.Provider value={user}>
       <div className="App">
-        <SignIn />
-        {user && (
-          <React.Fragment>
-            <Messages messages={messages} />
-            <Divider />
-            <SendSound />
-            <SendMessage />
-            <PlaySound command={latestMessage} />
-          </React.Fragment>
-        )}
+        <VolumeProvider>
+          <SignIn />
+          {user && (
+            <React.Fragment>
+              <Messages messages={messages} />
+              <Divider />
+              <SendSound />
+              <SendMessage />
+              <PlaySound command={latestMessage} />
+            </React.Fragment>
+          )}
+        </VolumeProvider>
       </div>
     </UserContext.Provider>
   )

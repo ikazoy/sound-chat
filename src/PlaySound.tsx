@@ -1,5 +1,6 @@
 import React from 'react'
 import Sound, { ReactSoundProps } from 'react-sound'
+import { useVolume } from './useVolume'
 /* eslint @typescript-eslint/no-var-requires: 0 */
 const Ou = require('./assets/audio/mens-ou1.mp3')
 const Arigatou = require('./assets/audio/ありがとうございます.mp3')
@@ -96,6 +97,7 @@ export const PlaySound = (props: {
   onFinishedPlaying?: () => void
 }): JSX.Element => {
   const { command, status, onFinishedPlaying } = props
+  const { volume } = useVolume()
   const sound = soundCommandToModule(command)
   /* eslint @typescript-eslint/no-empty-function: 0 */
   const defaultOnFinished = () => {}
@@ -104,6 +106,7 @@ export const PlaySound = (props: {
       url={sound || ''}
       playStatus={status || 'PLAYING'}
       onFinishedPlaying={onFinishedPlaying || defaultOnFinished}
+      volume={volume}
     ></Sound>
   )
 }

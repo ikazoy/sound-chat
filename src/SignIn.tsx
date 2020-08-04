@@ -5,14 +5,17 @@ import {
   Button,
   AppBar,
   Toolbar,
-  // Slide,
+  Slider,
+  Grid,
   CssBaseline,
   IconButton,
   Typography,
 } from '@material-ui/core'
 import { useUser } from './UserProvider'
+import { VolumeUp } from '@material-ui/icons'
 // import useScrollTrigger from '@material-ui/core/useScrollTrigger'
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
+import { useVolume } from './useVolume'
 interface Props {
   children: React.ReactElement
 }
@@ -60,6 +63,10 @@ const useStyles = makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
+    volume: {
+      'min-width': 200,
+      flexGrow: 1,
+    },
     avatar: {
       width: theme.spacing(3),
       height: theme.spacing(3),
@@ -69,6 +76,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     title: {
       flexGrow: 1,
+      'margin-left': '10px',
+    },
+    button: {
+      'margin-right': '10px',
     },
   })
 )
@@ -76,12 +87,31 @@ const useStyles = makeStyles((theme: Theme) =>
 export const SignIn = (): JSX.Element => {
   const user = useUser()
   const classes = useStyles()
+  const { volume, setVolume } = useVolume()
+  const volumeSlider = (
+    <Grid container spacing={1} className={classes.volume}>
+      <Grid item>
+        <VolumeUp />
+      </Grid>
+      <Grid item xs={6}>
+        <Slider
+          color="secondary"
+          value={volume}
+          onChange={(_event: any, newValue: number | number[]) => {
+            setVolume!(newValue as number)
+          }}
+          aria-labelledby="continuous-slider"
+        />
+      </Grid>
+    </Grid>
+  )
   const loginButton = (
     <Button
       variant="contained"
       onClick={() => {
         loginProcess()
       }}
+      className={classes.button}
     >
       Login
     </Button>
@@ -98,29 +128,42 @@ export const SignIn = (): JSX.Element => {
     </Button>
   )
   const button = user ? logoutButton : loginButton
-  const signedIn = (
-    <React.Fragment>
-      <Avatar
-        alt={user?.displayName || undefined}
-        src={user?.avatar || undefined}
-        imgProps={{ referrerPolicy: 'no-referrer' }}
-        className={classes.avatar}
-        variant="square"
-      />
-      <IconButton edge="end">{button}</IconButton>
-    </React.Fragment>
-  )
 
-  // TODO: Sign out
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="sticky">
-        <Toolbar variant="regular">
-          <Typography variant="h6" className={classes.title}>
-            Ding Dong Ding
-          </Typography>
-          {/* {user ? signedIn : login} */ signedIn}
+        <Toolbar variant="regular" disableGutters>
+          <Grid
+            container
+            spacing={1}
+            justify="space-between"
+            alignItems="center"
+          >
+            <Grid>
+              <Typography
+                align="left"
+                variant="h6"
+                className={classes.title}
+                noWrap={true}
+              >
+                Ding Dong Ding
+              </Typography>
+            </Grid>
+            <Grid xs={3}>{volumeSlider}</Grid>
+            <Grid>
+              <Avatar
+                alt={user?.displayName || undefined}
+                src={user?.avatar || undefined}
+                imgProps={{ referrerPolicy: 'no-referrer' }}
+                className={classes.avatar}
+                variant="square"
+              />
+            </Grid>
+            <Grid item>
+              <IconButton edge="end">{button}</IconButton>
+            </Grid>
+          </Grid>
         </Toolbar>
       </AppBar>
     </React.Fragment>
