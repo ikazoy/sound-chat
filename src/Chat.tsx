@@ -87,7 +87,7 @@ function App(): JSX.Element {
               <Divider />
               <SendSound />
               <SendMessage />
-              <PlaySound command={latestMessage} />
+              <PlaySound command={latestMessage} status="PLAYING" />
             </React.Fragment>
           )}
         </VolumeProvider>

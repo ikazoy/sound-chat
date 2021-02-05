@@ -104,7 +104,7 @@ export const PlaySound = (props: {
   return (
     <Sound
       url={sound || ''}
-      playStatus={status || 'PLAYING'}
+      playStatus={status || 'STOPPED'}
       onFinishedPlaying={onFinishedPlaying || defaultOnFinished}
       volume={volume}
     ></Sound>
